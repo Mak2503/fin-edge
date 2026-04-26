@@ -1,5 +1,5 @@
 const app = require('./app');
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; // Look for an environment port or default to 3000
 
 app.listen(PORT, (err) => {
   if (err) return console.log('Error:', err);

@@ -3,7 +3,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const compression = require('compression');
 const logger = require('./middleware/logger');
-const errorHandler = require('./middleware/errorHandler');
+const { errorHandler } = require('./middleware/errorHandler');
 const { sanitize, validate } = require('./middleware/validator');
 const { protect } = require('./middleware/auth');
 
