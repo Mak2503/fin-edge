@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { AppError } = require('./errorHandler');
 
 // 1. Define Strict Rules (Whitelist Approach)
 const schemas = {

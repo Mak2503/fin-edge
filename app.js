@@ -6,6 +6,7 @@ const logger = require('./middleware/logger');
 const { errorHandler } = require('./middleware/errorHandler');
 const { sanitize, validate } = require('./middleware/validator');
 const { protect } = require('./middleware/auth');
+const transactionsRoute = require('./routes/transactionsRoute');
 
 const app = express();
 
@@ -18,6 +19,9 @@ app.use(sanitize);          // Global deep sanitisation to clean all inputs
 app.use(logger);            // Keeping existing logger
 
 // --- ROUTES ---
+
+app.use('/api/v1/transactions', transactionsRoute);
+
 app.get('/', (req, res) => {
   res.json({ success: true, message: "FinEdge API is Live" });
 });
