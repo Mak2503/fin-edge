@@ -8,6 +8,14 @@ const schemas = {
     email: Joi.string().email().lowercase().required(),
     password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9@#$%^&+=]{8,30}$')).required()
   }),
+  userLogin: Joi.object({
+    email: Joi.string().email().lowercase().required(),
+    password: Joi.string().required()
+  }),
+  userUpdateProfile: Joi.object({
+    name: Joi.string().alphanum().min(2).max(30),
+    email: Joi.string().email().lowercase()
+  }).min(1),
   transaction: Joi.object({
     type: Joi.string().valid('income', 'expense').required(),
     amount: Joi.number().positive().precision(2).required(),

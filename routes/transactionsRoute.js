@@ -10,15 +10,13 @@ const {
 const { protect } = require("../middleware/auth");
 const { validate, sanitize } = require("../middleware/validator");
 
-// router.use(protect)
-
 // Apply sanitization to all requests
 router.use(sanitize);
+router.use(protect);
 
 // Add a new transaction
 router.post("/", validate('transaction'), async (req, res) => {
-  // For testing without auth, we use a hardcoded userId. In production, this should come from the authenticated user context (e.g., req.user.id).
-  const userId = req.user?.id || "testUserId"; 
+  const userId = req.user.id;
   try {
     const transaction = await addTransaction(req.body, userId);
     res.status(201).json(transaction);
@@ -29,7 +27,7 @@ router.post("/", validate('transaction'), async (req, res) => {
 
 // Get all transactions for a user
 router.get("/", async (req, res) => {
-  const userId = req.user?.id || "testUserId";
+  const userId = req.user.id;
   try {
     const transactions = await getTransactions(userId);
     res.status(200).json(transactions);
@@ -40,7 +38,7 @@ router.get("/", async (req, res) => {
 
 // Get a transaction by ID
 router.get("/:id", async (req, res) => {
-  const userId = req.user?.id || "testUserId";
+  const userId = req.user.id;
   try {
     const transaction = await getTransactionById(req.params.id, userId);
     if (!transaction) {
@@ -54,7 +52,7 @@ router.get("/:id", async (req, res) => {
 
 // Update a transaction
 router.patch("/:id", validate('transaction'), async (req, res) => {
-  const userId = req.user?.id || "testUserId";
+  const userId = req.user.id;
   try {
     const updatedTransaction = await updateTransaction(req.params.id, req.body, userId);
     if (!updatedTransaction) {
@@ -68,7 +66,7 @@ router.patch("/:id", validate('transaction'), async (req, res) => {
 
 // Delete a transaction
 router.delete("/:id", async (req, res) => {
-  const userId = req.user?.id || "testUserId";
+  const userId = req.user.id;
   try {
     const result = await deleteTransaction(req.params.id, userId);
     res.status(200).json(result);
