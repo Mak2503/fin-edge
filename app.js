@@ -8,6 +8,7 @@ const { sanitize, validate } = require("./middleware/validator");
 const { protect } = require("./middleware/auth");
 const transactionsRoute = require("./routes/transactionsRoute");
 const usersRoute = require("./routes/usersRoute");
+const analyticsRoute = require("./routes/analyticsRoute");
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(logger); // Keeping existing logger
 // --- ROUTES ---
 app.use("/api/v1/transactions", transactionsRoute);
 app.use("/api/v1/users", usersRoute);
+app.use("/api/v1/analytics", analyticsRoute);
 
 app.get("/", (req, res) => {
   res.json({ success: true, message: "FinEdge API is Live" });

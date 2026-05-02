@@ -1,9 +1,19 @@
 const transactionsModel = require('../models/transactionsModel');
 
+const formatTransaction = (transaction) => {
+  const plainTransaction = transaction.toObject ? transaction.toObject() : transaction;
+  return {
+    ...plainTransaction,
+    date: new Date(parseInt(plainTransaction.date)).toISOString() // Convert Unix timestamp to ISO string
+  };
+};
+
+const formatTransactions = (transactions = []) => transactions.map(formatTransaction);
+
 const addTransaction = async (transaction, userId) => {
   try {
     const result = await transactionsModel.create({ ...transaction, userId });
-    return result;
+    return formatTransaction(result);
   } catch (error) {
     throw error;
   }
@@ -12,7 +22,7 @@ const addTransaction = async (transaction, userId) => {
 const getTransactions = async (userId) => {
   try {
     const transactions = await transactionsModel.find({ userId });
-    return transactions;
+    return formatTransactions(transactions);
   } catch (error) {
     throw error;
   }
@@ -27,7 +37,7 @@ const getTransactionById = async (transactionId, userId) => {
     if (transaction.userId !== userId) {
       throw new Error("Access denied: Transaction does not belong to the user");
     }
-    return transaction;
+    return formatTransaction(transaction);
   } catch (error) {
     throw error;
   }
@@ -43,7 +53,7 @@ const updateTransaction = async (transactionId, updatedData, userId) => {
       throw new Error("Access denied: Transaction does not belong to the user");
     }
     const updatedTransaction = await transactionsModel.findByIdAndUpdate(transactionId, updatedData, { new: true });
-    return updatedTransaction;
+    return formatTransaction(updatedTransaction);
   } catch (error) {
     throw error;
   }

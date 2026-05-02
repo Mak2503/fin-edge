@@ -14,7 +14,11 @@ const { validate, sanitize } = require("../middleware/validator");
 router.use(sanitize);
 router.use(protect);
 
-// Add a new transaction
+/**
+ * POST /transactions
+ * Add a new transaction for the authenticated user
+ * Body: transaction payload
+ */
 router.post("/", validate('transaction'), async (req, res) => {
   const userId = req.user.id;
   try {
@@ -25,7 +29,10 @@ router.post("/", validate('transaction'), async (req, res) => {
   }
 });
 
-// Get all transactions for a user
+/**
+ * GET /transactions
+ * Get all transactions for the authenticated user
+ */
 router.get("/", async (req, res) => {
   const userId = req.user.id;
   try {
@@ -36,7 +43,10 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Get a transaction by ID
+/**
+ * GET /transactions/:id
+ * Get a single transaction by transaction ID for the authenticated user
+ */
 router.get("/:id", async (req, res) => {
   const userId = req.user.id;
   try {
@@ -50,7 +60,11 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Update a transaction
+/**
+ * PATCH /transactions/:id
+ * Update a transaction by transaction ID for the authenticated user
+ * Body: partial transaction payload
+ */
 router.patch("/:id", validate('transaction'), async (req, res) => {
   const userId = req.user.id;
   try {
@@ -64,7 +78,10 @@ router.patch("/:id", validate('transaction'), async (req, res) => {
   }
 });
 
-// Delete a transaction
+/**
+ * DELETE /transactions/:id
+ * Delete a transaction by transaction ID for the authenticated user
+ */
 router.delete("/:id", async (req, res) => {
   const userId = req.user.id;
   try {
